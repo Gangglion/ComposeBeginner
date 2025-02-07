@@ -12,20 +12,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.glion.composebeginner.chapter1.Chapter1Main
+import com.glion.composebeginner.chapter1.RunPart
 import com.glion.composebeginner.ui.theme.ComposeBeginnerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // 화면에 보일 챕터를 선택합니다.
+        RunChapper.setChapter(Chapter.Chapter1)
+
         setContent {
             ComposeBeginnerTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     when(RunChapper.running) {
                         Chapter.Chapter1 -> {
-                            Chapter1Main.runLambda()
+                            Chapter1Main.RunChapter1(part = RunPart.HappyBirthdayCard)
                         }
-                        else -> {
+                        else -> { // Default
                             Greeting(
                                 name = "Android",
                                 modifier = Modifier.padding(innerPadding)
@@ -46,10 +51,25 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun GreetingPreview() {
+fun PreviewPractice() {
+    // 화면에 보일 챕터를 선택합니다.
+    RunChapper.setChapter(Chapter.Chapter1)
+
     ComposeBeginnerTheme {
-        Greeting("Android")
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            when(RunChapper.running) {
+                Chapter.Chapter1 -> {
+                    Chapter1Main.RunChapter1(part = RunPart.HappyBirthdayCard)
+                }
+                else -> { // Default
+                    Greeting(
+                        name = "Android",
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+            }
+        }
     }
 }

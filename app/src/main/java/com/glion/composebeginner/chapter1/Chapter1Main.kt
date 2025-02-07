@@ -1,7 +1,9 @@
 package com.glion.composebeginner.chapter1
 
-import android.util.Log
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.glion.composebeginner.utils.LogUtil
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -10,11 +12,20 @@ import kotlinx.coroutines.runBlocking
 import kotlin.system.measureTimeMillis
 
 enum class RunPart {
-    Lambda, Smart, Coroutine, Greeting, HappyBirthdayCard
+    HappyBirthdayCard
 }
 
 object Chapter1Main {
-    fun runSmart() {
+
+    @Composable
+    fun RunChapter1(part: RunPart, modifier: Modifier = Modifier.fillMaxSize()) {
+        return when(part) {
+            RunPart.HappyBirthdayCard -> {
+                BirthdayCardText("Han", "Glion", modifier)
+            }
+        }
+    }
+    private fun runSmart() {
         // MEMO : Smart 코드
         val smartTvDevice = Smart.SmartTvDevice("Android TV", "Entertainment")
         smartTvDevice.turnOn()
@@ -27,7 +38,7 @@ object Chapter1Main {
         smartHome.printSmartLightInfo()
     }
 
-    fun runLambda() {
+    private fun runLambda() {
         val coins: (Int) -> String = { quantity ->
             "$quantity quarters" // MEMO : 반환되는 String 값. 따로 return이 존재하진 않는다.
         }
@@ -46,23 +57,23 @@ object Chapter1Main {
         treatFunction()
     }
 
-    fun runCoroutine() {
+    private fun runCoroutine() {
         // MEMO : 코루틴 실습
-        Log.w("shhan", "============================= 코루틴 실습 시작 지점 =============================")
-        Log.d("shhan","Weather forecast - 1") // MEMO : 동기호출 - Weather forecast 출력 완료 후 Sunny 출력됨
+        LogUtil.w("============================= 코루틴 실습 시작 지점 =============================")
+        LogUtil.d("Weather forecast - 1") // MEMO : 동기호출 - Weather forecast 출력 완료 후 Sunny 출력됨
         // delay(1000) // MEMO : delay 함수는 코루틴이 제공하는 특수 정지 함수. 이 아래부분의 실행은 1000ms(1초) 지연됨. 사용을 위해서 runBlocking 으로 래핑해줘야함
-        Log.d("shhan","Sunny")
+        LogUtil.d("Sunny")
 
         // MEMO : runBlocking 으로 래핑함 - 여전히 동기식. 람다 블록 내의 모든 작업이 완료되기 전까지 반환되지 않는다.
         runBlocking{
-            Log.d("shhan","Weather forecast - 2")
+            LogUtil.d("Weather forecast - 2")
             delay(1000)
-            Log.d("shhan","Sunny")
+            LogUtil.d("Sunny")
         }
 
         // MEMO : 정지함수는 코루틴이나 다른 정지함수에서만 호출할 수 있음(suspend 키워드)
         runBlocking{
-            Log.d("shhan","Weather forecast - 3")
+            LogUtil.d("Weather forecast - 3")
             Coroutine.printForecast()
         }
 
@@ -70,36 +81,36 @@ object Chapter1Main {
         //  => 코루틴의 코드는 기본적으로 순차적으로 호출된다. 여러 작업을 동시에 실행하기 위해선 명시적으로 표현해줄 필요가 있다.
         val time = measureTimeMillis {
             runBlocking {
-                Log.d("shhan","Weather forecast - 4")
+                LogUtil.d("Weather forecast - 4")
                 Coroutine.printForecast()
                 Coroutine.printTemperature()
-                Log.d("shhan","Have a good day")
+                LogUtil.d("Have a good day")
             }
         }
-        Log.d("shhan", "suspend 함수 2개 사용 runBlocking 소요시간 : ${time / 1000.0}")
+        LogUtil.d( "suspend 함수 2개 사용 runBlocking 소요시간 : ${time / 1000.0}")
 
         // MEMO : launch 를 사용하여 suspend 함수 2개를 자체 코루틴에서 실행하도록 변경한다.
         //  출력 자체는 동일하지만, 프로그램 시간상 더 빠르게 실행된다. 위의 코드에서는 suspend 함수 printForecast가 완료되어야 printTemperature가 실행됬다.
         //  launch를 하게되어 printForecast() 와 printTemperature가 동시에 실행된다.
         val time2 = measureTimeMillis {
             runBlocking {
-                Log.d("shhan","Weather forecast - 5")
+                LogUtil.d("Weather forecast - 5")
                 launch{
                     Coroutine.printForecast()
                 }
                 launch{
                     Coroutine.printTemperature()
                 }
-                Log.d("shhan","Have a good day")
+                LogUtil.d("Have a good day")
             }
         }
-        Log.d("shhan", "suspend 함수 launch() 에서 동시실행 소요시간 : ${time2 / 1000.0}")
+        LogUtil.d( "suspend 함수 launch() 에서 동시실행 소요시간 : ${time2 / 1000.0}")
 
         // MEMO : 코루틴의 완료 시점과, 반환값에 관심이 있을때 async() / await() 사용 가능
         //  getForecast() 와 getTemperature() 가 동시에 실행되고, 두 값이 모두 반환이 완료되었을때 println 실행됨
         val time3 = measureTimeMillis {
             runBlocking{
-                Log.d("shhan","Weather forecast - 6")
+                LogUtil.d("Weather forecast - 6")
                 val forecast: Deferred<String> = async { // MEMO : async로 실행 1
                     Coroutine.getForecast()
                 }
@@ -107,42 +118,36 @@ object Chapter1Main {
                     Coroutine.getTemperature()
                 }
                 // MEMO : 위에서 async로 실행한 1,2 는 동시에 실행됨. 또한 Log문은 순차적으로 실행됨.
-                Log.d("shhan","Forecast : ${forecast.await()}, Temperature : ${temperature.await()}") // MEMO : 완료될때까지 대기
-                Log.d("shhan","Have a good day!")
+                LogUtil.d("Forecast : ${forecast.await()}, Temperature : ${temperature.await()}") // MEMO : 완료될때까지 대기
+                LogUtil.d("Have a good day!")
             }
         }
-        Log.d("shhan", "async 소요시간 : ${time3/1000.0}")
+        LogUtil.d( "async 소요시간 : ${time3/1000.0}")
 
         // MEMO : coroutineScope 사용.
         runBlocking{
-            Log.d("shhan","Weather forecast - 7")
-            Log.d("shhan", Coroutine.getWeatherReport())
-            Log.d("shhan","Have a good day!")
+            LogUtil.d("Weather forecast - 7")
+            LogUtil.d( Coroutine.getWeatherReport())
+            LogUtil.d("Have a good day!")
         }
 
         // MEMO : 예외 및 취소 처리. 서버에서 데이터를 가져올 때 예상치 못한 오류가 발생하는 것을 시뮬레이션
         runBlocking {
-            Log.d("shhan","Weather forecast - 8")
+            LogUtil.d("Weather forecast - 8")
             try{
-                Log.d("shhan", Coroutine.getWeatherReportWithError())
+                LogUtil.d( Coroutine.getWeatherReportWithError())
             } catch(e: NullPointerException){
-                Log.e("shhan", "의도적인 NullPointerException 발생 Catch")
+                LogUtil.e( "의도적인 NullPointerException 발생 Catch")
             }
-            Log.d("shhan","Have a good day!")
+            LogUtil.d("Have a good day!")
         }
 
         // MEMO : async에서 예외처리. 상위 코루틴인 getWeatherReportWithError2 의 async부분에서 에러처리. runBlocking 에서는 따로 에러처리 안해줌
         runBlocking{
-            Log.d("shhan","Weather forecast - 9")
-            Log.d("shhan", Coroutine.getWeatherReportWithError2())
-            Log.d("shhan","Have a good day!")
+            LogUtil.d("Weather forecast - 9")
+            LogUtil.d( Coroutine.getWeatherReportWithError2())
+            LogUtil.d("Have a good day!")
         }
-        Log.w("shhan", "============================= 코루틴 실습 종료 지점 =============================")
+        LogUtil.w( "============================= 코루틴 실습 종료 지점 =============================")
     }
-
-    @Composable
-    fun runGreeting() = Greeting("Gangglion")
-
-    @Composable
-    fun runHappyBirthdayCard() = BirthdayGreetingWithImage("Happy Birthday Han!", "- from Glion")
 }

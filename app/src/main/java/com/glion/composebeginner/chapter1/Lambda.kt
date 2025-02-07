@@ -1,5 +1,7 @@
 package com.glion.composebeginner.chapter1
 
+import com.glion.composebeginner.utils.LogUtil
+
 // MEMO : 람다 표현식의 매개변수 유형, 반환 유형
 //  () -> Unit : 매개변수가 없고, 반환값이 없다.
 //  (String) -> String : String 형 매개변수에 반환형식은 String 이다.
@@ -12,16 +14,16 @@ object Lambda {
         return if(isTrick) trick
         else {
             if(extraTreat != null){
-                println(extraTreat(5))
+                LogUtil.d(extraTreat(5))
             }
             treat
         }
     }
     val trick = { // MEMO : 람다 표현식
-        println("No treats!")
+        LogUtil.d("No treats!")
     }
 
     val treat: () -> Unit = {
-        println("Have a treat!")
+        LogUtil.d("Have a treat!")
     }
 }
