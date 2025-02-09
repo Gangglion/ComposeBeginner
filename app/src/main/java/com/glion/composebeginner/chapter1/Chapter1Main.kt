@@ -11,20 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.system.measureTimeMillis
 
-enum class RunPart {
-    HappyBirthdayCard
-}
-
 object Chapter1Main {
-
-    @Composable
-    fun RunChapter1(part: RunPart, modifier: Modifier = Modifier.fillMaxSize()) {
-        return when(part) {
-            RunPart.HappyBirthdayCard -> {
-                BirthdayCardText("Han", "Glion", modifier)
-            }
-        }
-    }
     private fun runSmart() {
         // MEMO : Smart 코드
         val smartTvDevice = Smart.SmartTvDevice("Android TV", "Entertainment")

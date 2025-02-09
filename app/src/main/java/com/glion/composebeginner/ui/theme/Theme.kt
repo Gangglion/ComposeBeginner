@@ -10,9 +10,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.glion.composebeginner.Chapter
-import com.glion.composebeginner.RunChapper
+import com.glion.composebeginner.RunSelector
 
-private val DarkColorScheme = when(RunChapper.running) {
+private val DarkColorScheme = when(RunSelector.runChapter) {
     Chapter.Chapter1 -> {
         darkColorScheme(
             primary = Purple200,
@@ -29,7 +29,7 @@ private val DarkColorScheme = when(RunChapper.running) {
     }
 }
 
-private val LightColorScheme = when(RunChapper.running) {
+private val LightColorScheme = when(RunSelector.runChapter) {
     Chapter.Chapter1 -> {
         lightColorScheme(
             primary = Purple500,
@@ -76,7 +76,7 @@ fun ComposeBeginnerTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        shapes = when(RunChapper.running) {
+        shapes = when(RunSelector.runChapter) {
             Chapter.Chapter1 -> {
                 birthdayCardShape
             }

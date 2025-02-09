@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.glion.composebeginner.R
 import com.glion.composebeginner.ui.theme.ComposeBeginnerTheme
+import com.glion.composebeginner.utils.LogUtil
+import com.glion.composebeginner.utils.noRippleClickable
 
 //@Composable
 //fun BirthdayGreetingWithImage(message: String, from: String, modifier: Modifier = Modifier){
@@ -65,13 +68,16 @@ fun BirthdayCardText(
             text = "Happy\nBirthday\n$to!",
             textAlign = TextAlign.Center,
             fontSize = 90.sp,
-            lineHeight = 100.sp
+            lineHeight = 100.sp,
+            modifier = Modifier.noRippleClickable {
+                LogUtil.d("텍스트 클릭")
+            }
         )
         Text(
             text = "From $from",
             fontSize = 36.sp,
             modifier = Modifier
-                .align(Alignment.End)
+                .align(Alignment.CenterHorizontally)
                 .padding(16.dp)
         )
     }
@@ -85,8 +91,10 @@ fun BirthdayCard(
 ) {
     Box(modifier) {
         Image(
-            painter = painterResource(id = R.drawable.androidparty),
+            painter = painterResource(id = R.drawable.ch_1_androidparty),
             contentDescription = null,
+            contentScale = ContentScale.Crop,
+            alpha = 0.5f,
             modifier = modifier
         )
         BirthdayCardText(to = to, from = from, modifier = modifier)

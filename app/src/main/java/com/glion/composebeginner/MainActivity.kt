@@ -11,8 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.glion.composebeginner.chapter1.Chapter1Main
-import com.glion.composebeginner.chapter1.RunPart
 import com.glion.composebeginner.ui.theme.ComposeBeginnerTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,24 +19,26 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         // 화면에 보일 챕터를 선택합니다.
-        RunChapper.setChapter(Chapter.Chapter1)
-
+        RunSelector.setChapter(Chapter.Chapter1)
+        // 챕터별 실행할 파트를 선택합니다.
+        RunSelector.setPart(Chapter1Part.BusinessCard)
         setContent {
             ComposeBeginnerTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    when(RunChapper.running) {
-                        Chapter.Chapter1 -> {
-                            Chapter1Main.RunChapter1(part = RunPart.HappyBirthdayCard)
-                        }
-                        else -> { // Default
-                            Greeting(
-                                name = "Android",
-                                modifier = Modifier.padding(innerPadding)
-                            )
-                        }
-                    }
-                }
+                MainComposable()
             }
+        }
+    }
+}
+
+@Composable
+fun MainComposable() {
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
+    ) { innerPadding ->
+        if(RunSelector.runPart == null) {
+            Greeting("ComposeBeginner", modifier = Modifier.padding(innerPadding))
+        } else {
+            RunSelector.DoRun()
         }
     }
 }
@@ -55,21 +55,11 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun PreviewPractice() {
     // 화면에 보일 챕터를 선택합니다.
-    RunChapper.setChapter(Chapter.Chapter1)
+    RunSelector.setChapter(Chapter.Chapter1)
+    // 챕터별 실행할 파트를 선택합니다.
+    RunSelector.setPart(Chapter1Part.BusinessCard)
 
     ComposeBeginnerTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            when(RunChapper.running) {
-                Chapter.Chapter1 -> {
-                    Chapter1Main.RunChapter1(part = RunPart.HappyBirthdayCard)
-                }
-                else -> { // Default
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
+        MainComposable()
     }
 }
