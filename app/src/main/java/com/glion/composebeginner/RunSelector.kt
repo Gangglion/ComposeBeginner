@@ -1,6 +1,10 @@
 package com.glion.composebeginner
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.glion.composebeginner.chapter1.BirthdayCard
@@ -36,7 +40,12 @@ object RunSelector {
     }
 
     @Composable
-    fun DoRun(modifier: Modifier = Modifier.fillMaxSize()) {
+    fun DoRun(
+        modifier: Modifier = Modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.navigationBars) // 시스템 네비게이션 바 만큼의 inset 지정
+            .windowInsetsPadding(WindowInsets.statusBars) // 시스템 상태바 만큼의 inset 지정
+    ) {
         when(runChapter) {
             Chapter.Chapter1 -> {
                 RunChapter(modifier = modifier)
