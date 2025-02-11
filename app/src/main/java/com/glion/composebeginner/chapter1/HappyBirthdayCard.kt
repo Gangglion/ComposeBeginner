@@ -23,36 +23,6 @@ import com.glion.composebeginner.ui.theme.ComposeBeginnerTheme
 import com.glion.composebeginner.utils.LogUtil
 import com.glion.composebeginner.utils.noRippleClickable
 
-//@Composable
-//fun BirthdayGreetingWithImage(message: String, from: String, modifier: Modifier = Modifier){
-//    val image = painterResource(id = R.drawable.androidparty)
-//    Box{
-//        Image(painter = image, contentDescription = null, contentScale = ContentScale.Crop)
-//        BirthdayGreetingWithText(message, from)
-//    }
-//}
-//@Composable
-//fun BirthdayGreetingWithText(message: String, from: String, modifier: Modifier = Modifier){
-//    Column(
-//        modifier = modifier.fillMaxSize(),
-//        verticalArrangement = Arrangement.Top,
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ){
-//        Text(text = message, fontSize = 36.sp, modifier = Modifier.padding(top = 16.dp))
-//        Text(text = from, fontSize = 24.sp, modifier = Modifier
-//            .padding(top = 16.dp, end = 16.dp)
-//            .align(alignment = Alignment.End))
-//    }
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun BirthdayCardPreview() {
-//    ComposeBeginnerTheme {
-//        BirthdayGreetingWithImage("Happy Birthday Han!", "- from Glion")
-//    }
-//}
-
 @Composable
 fun BirthdayCardText(
     to: String,

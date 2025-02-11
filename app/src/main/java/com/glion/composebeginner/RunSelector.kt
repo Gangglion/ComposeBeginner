@@ -12,6 +12,7 @@ import com.glion.composebeginner.chapter1.BusinessCard
 import com.glion.composebeginner.chapter1.ComposeFourthQuadrant
 import com.glion.composebeginner.chapter1.ComposeHelper
 import com.glion.composebeginner.chapter1.TaskManager
+import com.glion.composebeginner.chapter2.DiceRollerApp
 
 enum class Chapter {
     Chapter1, Chapter2
@@ -19,6 +20,10 @@ enum class Chapter {
 
 enum class Chapter1Part {
     HappyBirthdayCard, ComposeHelper, TaskManager, ComposeFourthQuadrant, BusinessCard
+}
+
+enum class Chapter2Part {
+    DiceRoller
 }
 
 /**
@@ -48,16 +53,16 @@ object RunSelector {
     ) {
         when(runChapter) {
             Chapter.Chapter1 -> {
-                RunChapter(modifier = modifier)
+                RunChapter1(modifier = modifier)
             }
             Chapter.Chapter2 -> {
-
+                RunChapter2(modifier = modifier)
             }
         }
     }
 
     @Composable
-    fun RunChapter(modifier: Modifier) {
+    fun RunChapter1(modifier: Modifier) {
         when(runPart) {
             Chapter1Part.HappyBirthdayCard -> {
                 BirthdayCard("Han", "Glion", modifier)
@@ -80,6 +85,15 @@ object RunSelector {
                 )
             }
 
+        }
+    }
+
+    @Composable
+    fun RunChapter2(modifier: Modifier) {
+        when(runPart) {
+            Chapter2Part.DiceRoller -> {
+                DiceRollerApp(modifier)
+            }
         }
     }
 }
